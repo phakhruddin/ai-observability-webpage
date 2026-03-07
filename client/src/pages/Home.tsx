@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { ArrowRight, TrendingUp, Users, Zap } from "lucide-react";
 import { useState, useEffect } from "react";
 import { AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from "recharts";
+import { FeatureComparisonModal } from "@/components/FeatureComparisonModal";
 
 /**
  * Design Philosophy: Data-Driven Elegance
@@ -90,6 +91,8 @@ function AnimatedCounter({ end, duration = 1500 }: { end: number; duration?: num
 }
 
 export default function Home() {
+  const [isComparisonModalOpen, setIsComparisonModalOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Hero Section */}
@@ -208,7 +211,17 @@ export default function Home() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div className="bg-card rounded-lg p-8 border border-border">
-              <h3 className="text-2xl font-bold mb-6">Platform Comparison</h3>
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-2xl font-bold">Platform Comparison</h3>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => setIsComparisonModalOpen(true)}
+                  className="text-accent border-accent hover:bg-accent/10"
+                >
+                  View Full Matrix
+                </Button>
+              </div>
               <div className="space-y-4">
                 {[
                   { name: "Arize", focus: "Enterprise ML/CV + LLM", strength: "Context graphs, ADB" },
@@ -385,9 +398,13 @@ export default function Home() {
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
             The market is ready. The opportunity is clear. The time to act is now.
           </p>
-          <div className="flex gap-4 justify-center flex-wrap">
-            <Button size="lg" className="bg-accent text-accent-foreground hover:opacity-90">
-              Get Full Strategy Document
+            <div className="flex gap-4 justify-center flex-wrap">
+            <Button
+              size="lg"
+              className="bg-accent text-accent-foreground hover:opacity-90"
+              onClick={() => setIsComparisonModalOpen(true)}
+            >
+              View Feature Comparison
             </Button>
             <Button size="lg" variant="outline">
               Schedule Demo
@@ -395,6 +412,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Feature Comparison Modal */}
+      <FeatureComparisonModal isOpen={isComparisonModalOpen} onClose={() => setIsComparisonModalOpen(false)} />
 
       {/* Footer */}
       <footer className="bg-card border-t border-border py-12">
