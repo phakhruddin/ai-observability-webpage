@@ -110,7 +110,7 @@ export function Footer() {
               <div className="flex items-start gap-3">
                 <MapPin className="h-4 w-4 text-accent mt-1 flex-shrink-0" />
                 <span className="text-sm text-muted-foreground">
-                  San Francisco, CA 94105
+                  Seattle, WA 98101
                 </span>
               </div>
             </div>
