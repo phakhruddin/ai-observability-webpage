@@ -6,6 +6,7 @@ import { AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, L
 import { FeatureComparisonModal } from "@/components/FeatureComparisonModal";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { Footer } from "@/components/Footer";
+import { InteractiveDemo } from "@/components/InteractiveDemo";
 
 /**
  * Design Philosophy: Data-Driven Elegance
@@ -284,6 +285,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Interactive Product Demo */}
+      <InteractiveDemo />
 
       {/* Testimonials Section */}
       <div id="testimonials">
