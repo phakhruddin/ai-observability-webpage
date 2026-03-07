@@ -96,6 +96,28 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      {/* Header with Logo */}
+      <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <img
+              src="https://d2xsxph8kpxj0f.cloudfront.net/310519663368978606/GWgqcpimJSVMFDBDwVraz6/opsnexai-logo-HLgEBJHg8vYg8ucjYTDx3j.webp"
+              alt="OpsNexAI Logo"
+              className="h-10 w-auto"
+            />
+          </div>
+          <nav className="hidden md:flex gap-8">
+            <a href="#features" className="text-sm text-muted-foreground hover:text-accent transition-colors">Features</a>
+            <a href="#comparison" className="text-sm text-muted-foreground hover:text-accent transition-colors">Comparison</a>
+            <a href="#testimonials" className="text-sm text-muted-foreground hover:text-accent transition-colors">Testimonials</a>
+            <a href="#pricing" className="text-sm text-muted-foreground hover:text-accent transition-colors">Pricing</a>
+          </nav>
+          <Button size="sm" className="bg-accent text-accent-foreground hover:opacity-90">
+            Get Started
+          </Button>
+        </div>
+      </header>
+
       {/* Hero Section */}
       <section className="relative overflow-hidden pt-20 pb-32">
         <div
@@ -109,7 +131,7 @@ export default function Home() {
         <div className="relative container mx-auto px-4">
           <div className="max-w-3xl">
             <h1 className="text-6xl font-bold mb-6 leading-tight">
-              The AI Observability Opportunity
+              The AI Observability Platform
             </h1>
             <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
               As organizations transition from experimental AI deployments to production agentic systems, the demand for sophisticated observability tools is accelerating. The market is poised for rapid growth, with significant opportunities for differentiated platforms.
@@ -203,7 +225,7 @@ export default function Home() {
       </section>
 
       {/* Competitive Landscape */}
-      <section className="py-20">
+      <section id="comparison" className="py-20">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold mb-4">Competitive Landscape</h2>
           <p className="text-lg text-muted-foreground mb-12 max-w-2xl">
@@ -263,10 +285,12 @@ export default function Home() {
       </section>
 
       {/* Testimonials Section */}
-      <TestimonialsSection />
+      <div id="testimonials">
+        <TestimonialsSection />
+      </div>
 
       {/* Core Platform Features */}
-      <section className="py-20 bg-card">
+      <section id="features" className="py-20 bg-card">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold mb-4">Core Platform Features</h2>
           <p className="text-lg text-muted-foreground mb-12 max-w-2xl">
@@ -286,7 +310,7 @@ export default function Home() {
       </section>
 
       {/* Pricing Strategy */}
-      <section className="py-20">
+      <section id="pricing" className="py-20">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold mb-4">Business Model & Pricing</h2>
           <p className="text-lg text-muted-foreground mb-12 max-w-2xl">
