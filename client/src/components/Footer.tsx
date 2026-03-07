@@ -92,19 +92,19 @@ export function Footer() {
               <div className="flex items-start gap-3">
                 <Mail className="h-4 w-4 text-accent mt-1 flex-shrink-0" />
                 <a
-                  href="mailto:hello@opsnexai.com"
+                  href="mailto:info@opsnexai.com"
                   className="text-sm text-muted-foreground hover:text-accent transition-colors"
                 >
-                  hello@opsnexai.com
+                  info@opsnexai.com
                 </a>
               </div>
               <div className="flex items-start gap-3">
                 <Phone className="h-4 w-4 text-accent mt-1 flex-shrink-0" />
                 <a
-                  href="tel:+1-555-0100"
+                  href="tel:+1-425-202-5790"
                   className="text-sm text-muted-foreground hover:text-accent transition-colors"
                 >
-                  +1 (555) 0100
+                  (425) 202-5790
                 </a>
               </div>
               <div className="flex items-start gap-3">
