@@ -4,6 +4,7 @@ import { ArrowRight, TrendingUp, Users, Zap } from "lucide-react";
 import { useState, useEffect } from "react";
 import { AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from "recharts";
 import { FeatureComparisonModal } from "@/components/FeatureComparisonModal";
+import { TestimonialsSection } from "@/components/TestimonialsSection";
 
 /**
  * Design Philosophy: Data-Driven Elegance
@@ -125,7 +126,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Market Overview */}
+      {/* Core Features */}
       <section className="py-20 bg-card">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
@@ -261,7 +262,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Core Features */}
+      {/* Testimonials Section */}
+      <TestimonialsSection />
+
+      {/* Core Platform Features */}
       <section className="py-20 bg-card">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold mb-4">Core Platform Features</h2>
