@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from "recharts";
 import { FeatureComparisonModal } from "@/components/FeatureComparisonModal";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
+import { Footer } from "@/components/Footer";
 
 /**
  * Design Philosophy: Data-Driven Elegance
@@ -444,48 +445,8 @@ export default function Home() {
       {/* Feature Comparison Modal */}
       <FeatureComparisonModal isOpen={isComparisonModalOpen} onClose={() => setIsComparisonModalOpen(false)} />
 
-      {/* Footer */}
-      <footer className="bg-card border-t border-border py-12">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-            <div>
-              <h4 className="font-bold mb-4">Market</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#" className="hover:text-accent">Market Size</a></li>
-                <li><a href="#" className="hover:text-accent">Trends</a></li>
-                <li><a href="#" className="hover:text-accent">Competitors</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold mb-4">Strategy</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#" className="hover:text-accent">Features</a></li>
-                <li><a href="#" className="hover:text-accent">Pricing</a></li>
-                <li><a href="#" className="hover:text-accent">Roadmap</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold mb-4">Resources</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#" className="hover:text-accent">Full Report</a></li>
-                <li><a href="#" className="hover:text-accent">Research</a></li>
-                <li><a href="#" className="hover:text-accent">Contact</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold mb-4">About</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#" className="hover:text-accent">Manus AI</a></li>
-                <li><a href="#" className="hover:text-accent">Privacy</a></li>
-                <li><a href="#" className="hover:text-accent">Terms</a></li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-border pt-8 text-center text-sm text-muted-foreground">
-            <p>© 2026 AI Observability Strategy. Research by Manus AI.</p>
-          </div>
-        </div>
-      </footer>
+      {/* Professional Footer */}
+      <Footer />
     </div>
   );
 }
