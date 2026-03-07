@@ -5,6 +5,7 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
+import { LiveChatWidget } from "./components/LiveChatWidget";
 
 
 function Router() {
@@ -23,15 +24,22 @@ function Router() {
 //   to keep consistent foreground/background color across components
 // - If you want to make theme switchable, pass `switchable` ThemeProvider and use `useTheme` hook
 
+// NOTE: LiveChatWidget
+// - Provides real-time support and engagement for website visitors
+// - Floating widget with minimizable chat interface
+// - Automatically available on all pages
+
 function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider
-        defaultTheme="dark"
+        defaultTheme="light"
+        // switchable
       >
         <TooltipProvider>
           <Toaster />
           <Router />
+          <LiveChatWidget />
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>
