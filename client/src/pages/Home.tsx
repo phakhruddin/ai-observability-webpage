@@ -8,6 +8,7 @@ import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { Footer } from "@/components/Footer";
 import { InteractiveDemo } from "@/components/InteractiveDemo";
 import { ROICalculator } from "@/components/ROICalculator";
+import { NewsletterSignup } from "@/components/NewsletterSignup";
 
 /**
  * Design Philosophy: Data-Driven Elegance
@@ -96,6 +97,7 @@ function AnimatedCounter({ end, duration = 1500 }: { end: number; duration?: num
 
 export default function Home() {
   const [isComparisonModalOpen, setIsComparisonModalOpen] = useState(false);
+  const [isNewsletterOpen, setIsNewsletterOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -451,8 +453,28 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Newsletter Signup CTA Section */}
+      <section className="py-20 bg-card border-t border-border">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-4xl font-bold mb-4">Stay Updated on AI Observability</h2>
+          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+            Get exclusive insights, market trends, and product updates delivered to your inbox.
+          </p>
+          <Button
+            size="lg"
+            className="bg-accent text-accent-foreground hover:opacity-90"
+            onClick={() => setIsNewsletterOpen(true)}
+          >
+            Get Free Resources <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
+      </section>
+
       {/* Feature Comparison Modal */}
       <FeatureComparisonModal isOpen={isComparisonModalOpen} onClose={() => setIsComparisonModalOpen(false)} />
+
+      {/* Newsletter Signup Modal */}
+      <NewsletterSignup isOpen={isNewsletterOpen} onClose={() => setIsNewsletterOpen(false)} />
 
       {/* Professional Footer */}
       <Footer />
