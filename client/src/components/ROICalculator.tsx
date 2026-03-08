@@ -2,7 +2,9 @@ import { useState, useMemo } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { TrendingUp, DollarSign, Clock, Zap } from "lucide-react";
+import { TrendingUp, DollarSign, Clock, Zap, Download, Mail, Copy, Check } from "lucide-react";
+import { generateROIPDF, shareViaEmail, copyToClipboard } from "@/lib/roiExport";
+import { toast } from "sonner";
 
 /**
  * ROI Calculator Component
@@ -66,10 +68,44 @@ const calculateROI = (monthlyTraces: number): ROIMetrics => {
 
 export function ROICalculator() {
   const [monthlyTraces, setMonthlyTraces] = useState(50000000);
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+  const [copiedToClipboard, setCopiedToClipboard] = useState(false);
   const roi = useMemo(() => calculateROI(monthlyTraces), [monthlyTraces]);
 
   const handleSliderChange = (value: number[]) => {
     setMonthlyTraces(value[0]);
+  };
+
+  const handleDownloadPDF = async () => {
+    setIsGeneratingPDF(true);
+    try {
+      await generateROIPDF(roi);
+      toast.success("ROI report downloaded successfully!");
+    } catch (error) {
+      toast.error("Failed to generate PDF. Please try again.");
+    } finally {
+      setIsGeneratingPDF(false);
+    }
+  };
+
+  const handleShareEmail = () => {
+    try {
+      shareViaEmail(roi);
+      toast.success("Email client opened with ROI results!");
+    } catch (error) {
+      toast.error("Failed to open email client.");
+    }
+  };
+
+  const handleCopyToClipboard = async () => {
+    try {
+      await copyToClipboard(roi);
+      setCopiedToClipboard(true);
+      toast.success("ROI results copied to clipboard!");
+      setTimeout(() => setCopiedToClipboard(false), 2000);
+    } catch (error) {
+      toast.error("Failed to copy to clipboard.");
+    }
   };
 
   const formatNumber = (num: number) => {
@@ -235,8 +271,46 @@ export function ROICalculator() {
             </ul>
           </div>
 
+          {/* Export Options */}
+          <div className="mt-8 grid grid-cols-3 gap-3 mb-6">
+            <Button
+              variant="outline"
+              className="flex items-center justify-center gap-2"
+              onClick={handleDownloadPDF}
+              disabled={isGeneratingPDF}
+            >
+              <Download className="h-4 w-4" />
+              {isGeneratingPDF ? "Generating..." : "Download PDF"}
+            </Button>
+            <Button
+              variant="outline"
+              className="flex items-center justify-center gap-2"
+              onClick={handleShareEmail}
+            >
+              <Mail className="h-4 w-4" />
+              Share Email
+            </Button>
+            <Button
+              variant="outline"
+              className="flex items-center justify-center gap-2"
+              onClick={handleCopyToClipboard}
+            >
+              {copiedToClipboard ? (
+                <>
+                  <Check className="h-4 w-4" />
+                  Copied!
+                </>
+              ) : (
+                <>
+                  <Copy className="h-4 w-4" />
+                  Copy
+                </>
+              )}
+            </Button>
+          </div>
+
           {/* CTA */}
-          <div className="mt-8 flex gap-4">
+          <div className="flex gap-4">
             <Button className="flex-1 bg-accent text-accent-foreground hover:opacity-90">
               Start Free Trial
             </Button>
