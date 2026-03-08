@@ -7,6 +7,7 @@ import { FeatureComparisonModal } from "@/components/FeatureComparisonModal";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { Footer } from "@/components/Footer";
 import { InteractiveDemo } from "@/components/InteractiveDemo";
+import { ROICalculator } from "@/components/ROICalculator";
 
 /**
  * Design Philosophy: Data-Driven Elegance
@@ -287,6 +288,10 @@ export default function Home() {
       </section>
 
       {/* Interactive Product Demo */}
+      {/* ROI Calculator Section */}
+      <ROICalculator />
+
+      {/* Interactive Demo Section */}
       <InteractiveDemo />
 
       {/* Testimonials Section */}
