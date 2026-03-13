@@ -1,4 +1,5 @@
 import { ContactForm } from "@/components/ContactForm";
+import { CalendlyWidget } from "@/components/CalendlyWidget";
 import { Footer } from "@/components/Footer";
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -54,6 +55,24 @@ export default function Contact() {
           <p className="text-xl text-muted-foreground max-w-2xl">
             Have questions about OpsNexAI? Want to schedule a demo? We're here to help. Reach out and let's start a conversation.
           </p>
+        </div>
+      </section>
+
+      {/* Scheduling Section */}
+      <section className="py-20 bg-card border-b border-border">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl font-bold mb-4">Schedule a Demo</h2>
+            <p className="text-lg text-muted-foreground mb-12">
+              Pick a time that works best for you. Our team will walk you through OpsNexAI's features and answer any questions.
+            </p>
+            <div className="bg-background border border-border rounded-lg p-8">
+              <CalendlyWidget
+                url="https://calendly.com/opsnexai/demo"
+                hideEventTypeDetails={false}
+              />
+            </div>
+          </div>
         </div>
       </section>
 
