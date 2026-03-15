@@ -1,5 +1,6 @@
 import { ContactForm } from "@/components/ContactForm";
 import { CalendlyWidget } from "@/components/CalendlyWidget";
+import { FAQSection } from "@/components/FAQSection";
 import { Footer } from "@/components/Footer";
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -179,6 +180,19 @@ export default function Contact() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-20 bg-background border-t border-border">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl font-bold mb-4">Frequently Asked Questions</h2>
+            <p className="text-lg text-muted-foreground mb-12">
+              Find answers to common questions about OpsNexAI's features, pricing, implementation, and support.
+            </p>
+            <FAQSection />
           </div>
         </div>
       </section>
