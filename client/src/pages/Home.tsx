@@ -143,7 +143,16 @@ export default function Home() {
               As organizations transition from experimental AI deployments to production agentic systems, the demand for sophisticated observability tools is accelerating. The market is poised for rapid growth, with significant opportunities for differentiated platforms.
             </p>
             <div className="flex gap-4">
-              <Button size="lg" className="bg-accent text-accent-foreground hover:opacity-90">
+              <Button
+                size="lg"
+                className="bg-accent text-accent-foreground hover:opacity-90"
+                onClick={() => {
+                  const comparisonSection = document.getElementById('comparison');
+                  if (comparisonSection) {
+                    comparisonSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+              >
                 Explore Strategy <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
               <Button size="lg" variant="outline">
