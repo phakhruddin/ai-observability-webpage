@@ -155,7 +155,16 @@ export default function Home() {
               >
                 Explore Strategy <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
-              <Button size="lg" variant="outline">
+              <Button
+                size="lg"
+                variant="outline"
+                onClick={() => {
+                  const marketSection = document.getElementById('market-data');
+                  if (marketSection) {
+                    marketSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+              >
                 View Market Data
               </Button>
             </div>
@@ -164,7 +173,7 @@ export default function Home() {
       </section>
 
       {/* Core Features */}
-      <section className="py-20 bg-card">
+      <section id="market-data" className="py-20 bg-card">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
             <Card className="bg-secondary p-8 border-border">
