@@ -118,7 +118,16 @@ export default function Home() {
             <a href="#pricing" className="text-sm text-muted-foreground hover:text-accent transition-colors">Pricing</a>
             <a href="/contact" className="text-sm text-muted-foreground hover:text-accent transition-colors">Contact</a>
           </nav>
-          <Button size="sm" className="bg-accent text-accent-foreground hover:opacity-90">
+          <Button
+            size="sm"
+            className="bg-accent text-accent-foreground hover:opacity-90"
+            onClick={() => {
+              const contactPage = document.querySelector('a[href="/contact"]') as HTMLAnchorElement;
+              if (contactPage) {
+                window.location.href = '/contact';
+              }
+            }}
+          >
             Get Started
           </Button>
         </div>
