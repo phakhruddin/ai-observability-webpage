@@ -22,7 +22,7 @@ interface CalendlyWidgetProps {
  * Note: Replace the default URL with your actual Calendly booking link
  */
 export function CalendlyWidget({
-  url = "https://calendly.com/opsnexai/demo",
+  url = "https://calendly.com/phakhruddin/30-minute-demo",
   prefillName,
   prefillEmail,
   hideEventTypeDetails = false,
