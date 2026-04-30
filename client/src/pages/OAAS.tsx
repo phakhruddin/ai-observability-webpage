@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ArrowRight, Zap, AlertCircle, TrendingUp, MessageSquare, Clock, CheckCircle } from "lucide-react";
 import { useLocation } from "wouter";
+import { OAASTestimonials } from "@/components/OAASTestimonials";
 
 /**
  * OAAS Product Page
@@ -350,6 +351,9 @@ export default function OAAS() {
           </div>
         </div>
       </section>
+
+      {/* Testimonials Section */}
+      <OAASTestimonials />
 
       {/* CTA Section */}
       <section className="py-20 px-4 bg-accent/10 border-t border-accent/20">
