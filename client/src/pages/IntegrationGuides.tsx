@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowRight, Copy, Check, Cloud, Boxes, Container } from "lucide-react";
+import { ArrowRight, Copy, Check, Cloud, Boxes, Container, Slack } from "lucide-react";
 import { useLocation } from "wouter";
 import { toast } from "sonner";
 
@@ -13,6 +13,7 @@ import { toast } from "sonner";
  * - AWS CloudWatch
  * - Kubernetes
  * - Container logs (Docker, etc.)
+ * - Slack notifications
  * 
  * Design: Dark theme with teal accents, code-focused aesthetic
  */
@@ -79,7 +80,7 @@ export default function IntegrationGuides() {
       <section className="py-12 px-4">
         <div className="container max-w-4xl mx-auto">
           <Tabs defaultValue="cloudwatch" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 mb-8">
+            <TabsList className="grid w-full grid-cols-4 mb-8">
               <TabsTrigger value="cloudwatch" className="flex items-center gap-2">
                 <Cloud className="w-4 h-4" />
                 <span className="hidden sm:inline">CloudWatch</span>
@@ -91,6 +92,10 @@ export default function IntegrationGuides() {
               <TabsTrigger value="containers" className="flex items-center gap-2">
                 <Container className="w-4 h-4" />
                 <span className="hidden sm:inline">Containers</span>
+              </TabsTrigger>
+              <TabsTrigger value="slack" className="flex items-center gap-2">
+                <Slack className="w-4 h-4" />
+                <span className="hidden sm:inline">Slack</span>
               </TabsTrigger>
             </TabsList>
 
@@ -423,6 +428,25 @@ docker ps --filter label=service
                     />
                   </div>
                 </div>
+              </Card>
+            </TabsContent>
+
+            {/* Slack Integration */}
+            <TabsContent value="slack" className="space-y-6">
+              <Card className="p-6 bg-card border-accent/20">
+                <h2 className="text-2xl font-bold mb-4">Slack Integration</h2>
+                <p className="text-muted-foreground mb-6">
+                  Connect OAAS to your Slack workspace for real-time alerts and notifications.
+                </p>
+                <Button
+                  size="lg"
+                  className="bg-accent hover:bg-accent/90 text-background flex items-center gap-2"
+                  onClick={() => setLocation("/slack-integration")}
+                >
+                  <Slack className="w-5 h-5" />
+                  View Full Slack Integration Guide
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
               </Card>
             </TabsContent>
           </Tabs>
