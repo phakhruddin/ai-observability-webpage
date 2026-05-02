@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Mail, Phone, MapPin, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { trackFormSubmission } from "@/lib/analytics";
 
 export function ContactForm() {
   const [formData, setFormData] = useState({
@@ -51,6 +52,7 @@ export function ContactForm() {
     e.preventDefault();
 
     if (!validateForm()) {
+      trackFormSubmission('Contact Form', false);
       toast.error("Please fix the errors in the form");
       return;
     }
@@ -65,6 +67,7 @@ export function ContactForm() {
       console.log("Contact form submitted:", formData);
 
       setIsSuccess(true);
+      trackFormSubmission('Contact Form', true);
       toast.success("Thank you! We'll be in touch soon.");
 
       // Reset form after 3 seconds

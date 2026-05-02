@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ArrowRight, TrendingUp, Users, Zap } from "lucide-react";
 import { useState, useEffect } from "react";
+import { trackPageView, trackCTAClick, trackFeatureInteraction, trackModalOpen } from "@/lib/analytics";
 import { AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from "recharts";
 import { FeatureComparisonModal } from "@/components/FeatureComparisonModal";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
@@ -124,6 +125,7 @@ export default function Home() {
             size="sm"
             className="bg-accent text-accent-foreground hover:opacity-90"
             onClick={() => {
+              trackCTAClick('Get Started Button', '/contact');
               const contactPage = document.querySelector('a[href="/contact"]') as HTMLAnchorElement;
               if (contactPage) {
                 window.location.href = '/contact';
@@ -158,6 +160,7 @@ export default function Home() {
                 size="lg"
                 className="bg-accent text-accent-foreground hover:opacity-90"
                 onClick={() => {
+                  trackCTAClick('Explore Strategy Button', '#comparison');
                   const comparisonSection = document.getElementById('comparison');
                   if (comparisonSection) {
                     comparisonSection.scrollIntoView({ behavior: 'smooth' });
@@ -170,6 +173,7 @@ export default function Home() {
                 size="lg"
                 variant="outline"
                 onClick={() => {
+                  trackCTAClick('View Market Data Button', '#market-data');
                   const marketSection = document.getElementById('market-data');
                   if (marketSection) {
                     marketSection.scrollIntoView({ behavior: 'smooth' });
@@ -472,9 +476,12 @@ export default function Home() {
             <Button
               size="lg"
               className="bg-accent text-accent-foreground hover:opacity-90"
-              onClick={() => setIsComparisonModalOpen(true)}
-            >
-              View Feature Comparison
+                  onClick={() => {
+                    trackModalOpen('Feature Comparison Modal');
+                    setIsComparisonModalOpen(true);
+                  }}
+                >
+                  View Feature Comparison
             </Button>
             <Button size="lg" variant="outline">
               Schedule Demo
@@ -493,7 +500,10 @@ export default function Home() {
           <Button
             size="lg"
             className="bg-accent text-accent-foreground hover:opacity-90"
-            onClick={() => setIsNewsletterOpen(true)}
+            onClick={() => {
+              trackModalOpen('Newsletter Signup Modal');
+              setIsNewsletterOpen(true);
+            }}
           >
             Get Free Resources <ArrowRight className="ml-2 h-4 w-4" />
           </Button>

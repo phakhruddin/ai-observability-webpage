@@ -5,6 +5,8 @@ import { Footer } from "@/components/Footer";
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
+import { useEffect } from "react";
+import { trackPageView, trackDemoBooking } from "@/lib/analytics";
 
 /**
  * Design Philosophy: Data-Driven Elegance
@@ -13,6 +15,11 @@ import { Link } from "wouter";
  */
 
 export default function Contact() {
+  // Track page view on mount
+  useEffect(() => {
+    trackPageView('Contact', '/contact');
+  }, []);
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Header with Logo */}
