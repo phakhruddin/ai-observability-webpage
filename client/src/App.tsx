@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import Contact from "./pages/Contact";
 import OAAS from "./pages/OAAS";
 import IntegrationGuides from "./pages/IntegrationGuides";
+import Blog from "./pages/Blog";
 import { LiveChatWidget } from "./components/LiveChatWidget";
 
 
@@ -17,6 +18,7 @@ function Router() {
       <Route path={"/"} component={Home} />
       <Route path={"/oaas"} component={OAAS} />
       <Route path={"/integration-guides"} component={IntegrationGuides} />
+      <Route path={"/blog"} component={Blog} />
       <Route path={"/contact"} component={Contact} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}

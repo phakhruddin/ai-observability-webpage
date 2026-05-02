@@ -117,6 +117,7 @@ export default function Home() {
             <a href="#testimonials" className="text-sm text-muted-foreground hover:text-accent transition-colors">Testimonials</a>
             <a href="#pricing" className="text-sm text-muted-foreground hover:text-accent transition-colors">Pricing</a>
             <a href="/oaas" className="text-sm text-muted-foreground hover:text-accent transition-colors">OAAS</a>
+            <a href="/blog" className="text-sm text-muted-foreground hover:text-accent transition-colors">Blog</a>
             <a href="/contact" className="text-sm text-muted-foreground hover:text-accent transition-colors">Contact</a>
           </nav>
           <Button
