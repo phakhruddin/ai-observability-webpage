@@ -367,7 +367,7 @@ export default function OAAS() {
             <Button
               size="lg"
               className="bg-accent hover:bg-accent/90 text-background"
-              onClick={() => setLocation("/contact")}
+              onClick={() => setLocation("/free-trial")}
             >
               Start Free Trial <ArrowRight className="ml-2 w-4 h-4" />
             </Button>

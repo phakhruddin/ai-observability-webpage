@@ -47,6 +47,9 @@ export default function Contact() {
             <Link href="/#pricing">
               <a className="text-sm text-muted-foreground hover:text-accent transition-colors">Pricing</a>
             </Link>
+            <Link href="/free-trial">
+              <a className="text-sm text-muted-foreground hover:text-accent transition-colors">Free Trial</a>
+            </Link>
           </nav>
           <Link href="/">
             <Button size="sm" className="bg-accent text-accent-foreground hover:opacity-90">
