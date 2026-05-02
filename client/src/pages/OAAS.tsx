@@ -378,6 +378,13 @@ export default function OAAS() {
             >
               Schedule Demo
             </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => setLocation("/integration-guides")}
+            >
+              View Setup Guides
+            </Button>
           </div>
         </div>
       </section>

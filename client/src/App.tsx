@@ -7,6 +7,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import Contact from "./pages/Contact";
 import OAAS from "./pages/OAAS";
+import IntegrationGuides from "./pages/IntegrationGuides";
 import { LiveChatWidget } from "./components/LiveChatWidget";
 
 
@@ -15,6 +16,7 @@ function Router() {
     <Switch>
       <Route path={"/"} component={Home} />
       <Route path={"/oaas"} component={OAAS} />
+      <Route path={"/integration-guides"} component={IntegrationGuides} />
       <Route path={"/contact"} component={Contact} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
