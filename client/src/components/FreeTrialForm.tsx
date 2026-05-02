@@ -116,21 +116,21 @@ export function FreeTrialForm() {
 
       setIsSuccess(true);
       trackFormSubmission("Free Trial Form", true);
-      toast.success("Welcome! Check your email to get started.");
+      
+      // Store user data in localStorage
+      localStorage.setItem("trialUserName", formData.name);
+      localStorage.setItem("trialUserEmail", formData.email);
+      localStorage.setItem("trialCompany", formData.company);
+      localStorage.setItem("trialCompanySize", formData.companySize);
+      localStorage.setItem("trialLogVolume", formData.logVolume);
+      localStorage.setItem("trialStartDate", new Date().toISOString());
+      
+      toast.success("Welcome! Redirecting to your dashboard...");
 
-      // Reset form after 3 seconds
+      // Redirect to dashboard after 2 seconds
       setTimeout(() => {
-        setFormData({
-          name: "",
-          email: "",
-          company: "",
-          companySize: "",
-          logVolume: "",
-          currentTools: [],
-          useCase: "",
-        });
-        setIsSuccess(false);
-      }, 3000);
+        window.location.href = "/dashboard";
+      }, 2000);
     } catch (err) {
       toast.error("Failed to submit form. Please try again.");
     } finally {
@@ -173,18 +173,18 @@ export function FreeTrialForm() {
         </div>
         <h3 className="text-2xl font-bold text-foreground mb-2">Welcome to OpsNexAI!</h3>
         <p className="text-muted-foreground mb-4">
-          We've sent a confirmation email to <span className="font-semibold text-foreground">{formData.email}</span>.
+          Your trial account has been created. Redirecting to your dashboard...
         </p>
         <p className="text-sm text-muted-foreground mb-6">
-          Your free trial is ready. Check your inbox for setup instructions and get started with observability-as-a-service.
+          You will receive a confirmation email at <span className="font-semibold text-foreground">{formData.email}</span>.
         </p>
         <div className="bg-accent/10 border border-accent/20 rounded-lg p-4 text-left">
-          <p className="text-sm text-foreground font-medium mb-2">What's next?</p>
+          <p className="text-sm text-foreground font-medium mb-2">Your trial includes:</p>
           <ul className="text-sm text-muted-foreground space-y-1">
-            <li>✓ Confirm your email address</li>
-            <li>✓ Access the OAAS dashboard</li>
-            <li>✓ Connect your first data source</li>
-            <li>✓ Schedule a guided onboarding call</li>
+            <li>✓ 14 days of full access to all OAAS features</li>
+            <li>✓ Unlimited log ingestion and analysis</li>
+            <li>✓ Real-time alerting and anomaly detection</li>
+            <li>✓ Dedicated onboarding support</li>
           </ul>
         </div>
       </div>

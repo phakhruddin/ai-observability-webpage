@@ -10,6 +10,7 @@ import OAAS from "./pages/OAAS";
 import IntegrationGuides from "./pages/IntegrationGuides";
 import Blog from "./pages/Blog";
 import FreeTrial from "./pages/FreeTrial";
+import Dashboard from "./pages/Dashboard";
 import { LiveChatWidget } from "./components/LiveChatWidget";
 
 
@@ -19,6 +20,7 @@ function Router() {
       <Route path={"/"} component={Home} />
       <Route path={"/oaas"} component={OAAS} />
       <Route path={"/free-trial"} component={FreeTrial} />
+      <Route path={"/dashboard"} component={Dashboard} />
       <Route path={"/integration-guides"} component={IntegrationGuides} />
       <Route path={"/blog"} component={Blog} />
       <Route path={"/contact"} component={Contact} />
