@@ -12,6 +12,7 @@ import Blog from "./pages/Blog";
 import FreeTrial from "./pages/FreeTrial";
 import Dashboard from "./pages/Dashboard";
 import SlackIntegration from "./pages/SlackIntegration";
+import WebhookIntegration from "./pages/WebhookIntegration";
 import { LiveChatWidget } from "./components/LiveChatWidget";
 
 
@@ -23,6 +24,7 @@ function Router() {
       <Route path={"/free-trial"} component={FreeTrial} />
       <Route path={"/dashboard"} component={Dashboard} />
       <Route path={"/slack-integration"} component={SlackIntegration} />
+      <Route path={"/webhook-integration"} component={WebhookIntegration} />
       <Route path={"/integration-guides"} component={IntegrationGuides} />
       <Route path={"/blog"} component={Blog} />
       <Route path={"/contact"} component={Contact} />
