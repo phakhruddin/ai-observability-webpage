@@ -5,6 +5,7 @@ import { LogOut, Settings, Bell, HelpCircle } from "lucide-react";
 import { trackPageView } from "@/lib/analytics";
 import { trackDashboardView, trackUpgradeClick } from "@/lib/dashboardAnalytics";
 import { TrialDashboard } from "@/components/TrialDashboard";
+import { SlackStatusWidget } from "@/components/SlackStatusWidget";
 import { Footer } from "@/components/Footer";
 
 /**
@@ -101,6 +102,11 @@ export default function Dashboard() {
 
         {/* Dashboard Content */}
         <TrialDashboard />
+
+        {/* Slack Status Section */}
+        <div className="mt-12 p-8 rounded-lg bg-card border border-border">
+          <SlackStatusWidget />
+        </div>
 
         {/* CTA Section */}
         <div className="mt-12 p-8 rounded-lg bg-gradient-to-r from-accent/10 to-accent/5 border border-accent/20">

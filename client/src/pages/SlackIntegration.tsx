@@ -5,6 +5,7 @@ import { ArrowLeft, Slack, Download, ExternalLink, Video } from "lucide-react";
 import { trackPageView } from "@/lib/analytics";
 import { trackSlackGuideStart, trackSlackBotSetup } from "@/lib/guideAnalytics";
 import { SlackIntegrationGuide } from "@/components/SlackIntegrationGuide";
+import { SlackStatusWidget } from "@/components/SlackStatusWidget";
 import { VideoPlayer } from "@/components/VideoPlayer";
 import { Footer } from "@/components/Footer";
 
@@ -157,6 +158,11 @@ export default function SlackIntegration() {
 
         {/* Integration Guide Component */}
         <SlackIntegrationGuide />
+
+        {/* Status Widget */}
+        <div className="mt-12">
+          <SlackStatusWidget />
+        </div>
 
         {/* Next Steps */}
         <div className="mt-12 p-8 rounded-lg bg-gradient-to-r from-accent/10 to-accent/5 border border-accent/20">
