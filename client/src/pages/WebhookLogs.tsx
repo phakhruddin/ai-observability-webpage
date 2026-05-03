@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Activity, Search, Filter, Download } from "lucide-react";
 import { WebhookLogTable } from "@/components/WebhookLogTable";
+import { StreamStatusIndicator } from "@/components/StreamStatusIndicator";
+import { useWebhookStream } from "@/hooks/useWebhookStream";
 import {
   generateMockDeliveryLogs,
   filterDeliveryLogs,
@@ -37,9 +39,17 @@ export default function WebhookLogs() {
   const [statusFilter, setStatusFilter] = useState<DeliveryStatus | "all">("all");
   const [severityFilter, setSeverityFilter] = useState<"all" | "critical" | "warning" | "info">("all");
 
+  // Real-time streaming hook
+  const { connectionState, newLogs, isPaused, logCount, lastUpdate, pause, resume, clearNewLogs } = useWebhookStream();
+
   useEffect(() => {
     trackWebhookLogsViewed();
   }, []);
+
+  // Merge new logs with existing logs
+  const allLogs = useMemo(() => {
+    return [...newLogs, ...logs];
+  }, [newLogs, logs]);
 
   const filteredLogs = useMemo(() => {
     const filter: WebhookLogFilter = {
@@ -47,16 +57,16 @@ export default function WebhookLogs() {
       severity: severityFilter === "all" ? undefined : (severityFilter as any),
       searchQuery: searchQuery || undefined,
     };
-    return filterDeliveryLogs(logs, filter);
-  }, [logs, searchQuery, statusFilter, severityFilter]);
+    return filterDeliveryLogs(allLogs, filter);
+  }, [allLogs, searchQuery, statusFilter, severityFilter]);
 
   // Calculate statistics
   const stats = useMemo(() => {
-    const total = logs.length;
-    const successful = logs.filter((l) => l.status === "success").length;
-    const failed = logs.filter((l) => l.status === "failed").length;
-    const retrying = logs.filter((l) => l.status === "retrying").length;
-    const avgResponseTime = Math.round(logs.reduce((sum, l) => sum + l.responseTime, 0) / total);
+    const total = allLogs.length;
+    const successful = allLogs.filter((l) => l.status === "success").length;
+    const failed = allLogs.filter((l) => l.status === "failed").length;
+    const retrying = allLogs.filter((l) => l.status === "retrying").length;
+    const avgResponseTime = Math.round(allLogs.reduce((sum, l) => sum + l.responseTime, 0) / total);
 
     return {
       total,
@@ -66,7 +76,7 @@ export default function WebhookLogs() {
       successRate: total > 0 ? Math.round((successful / total) * 100) : 0,
       avgResponseTime,
     };
-  }, [logs]);
+  }, [allLogs]);
 
   const handleExportLogs = () => {
     const csv = [
@@ -114,6 +124,16 @@ export default function WebhookLogs() {
 
       {/* Content */}
       <div className="max-w-7xl mx-auto px-4 py-12 space-y-8">
+        {/* Real-time Stream Status */}
+        <StreamStatusIndicator
+          connectionState={connectionState}
+          newLogCount={logCount}
+          isPaused={isPaused}
+          lastUpdate={lastUpdate}
+          onPause={pause}
+          onResume={resume}
+          onClear={clearNewLogs}
+        />
         {/* Statistics */}
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
           <Card className="bg-card border-border p-6">
@@ -227,7 +247,14 @@ export default function WebhookLogs() {
 
         {/* Logs Table */}
         <div>
-          <h2 className="text-lg font-semibold text-foreground mb-4">Recent Deliveries</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-foreground">Recent Deliveries</h2>
+            {logCount > 0 && (
+              <div className="text-sm text-accent font-medium">
+                {logCount} new {logCount === 1 ? "delivery" : "deliveries"}
+              </div>
+            )}
+          </div>
           <WebhookLogTable logs={filteredLogs} />
         </div>
 
@@ -235,6 +262,8 @@ export default function WebhookLogs() {
         <Card className="bg-accent/5 border border-accent/20 p-6">
           <h3 className="font-semibold text-foreground mb-2">💡 Debugging Tips</h3>
           <ul className="text-sm text-muted-foreground space-y-2">
+            <li>• Real-time streaming automatically displays new webhook deliveries</li>
+            <li>• Pause streaming to review logs without new entries appearing</li>
             <li>• Click on any delivery to view detailed request/response payloads</li>
             <li>• Failed deliveries show error messages to help identify issues</li>
             <li>• Retrying deliveries will automatically attempt delivery up to 5 times</li>
