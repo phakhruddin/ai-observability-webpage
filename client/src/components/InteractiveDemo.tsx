@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ChevronRight, Play, Pause, RotateCcw } from "lucide-react";
@@ -278,9 +279,7 @@ export function InteractiveDemo() {
             Get hands-on access to the full OpsNexAI platform. Start monitoring your AI systems in minutes.
           </p>
           <div className="flex gap-4 justify-center">
-            <Button className="bg-accent text-accent-foreground hover:opacity-90">
-              Start Free Trial
-            </Button>
+            <InteractiveDemoButton />
             <Button variant="outline">
               Schedule Demo
             </Button>
@@ -288,6 +287,18 @@ export function InteractiveDemo() {
         </div>
       </div>
     </section>
+  );
+}
+
+function InteractiveDemoButton() {
+  const [, setLocation] = useLocation();
+  return (
+    <Button 
+      className="bg-accent text-accent-foreground hover:opacity-90"
+      onClick={() => setLocation("/free-trial")}
+    >
+      Start Free Trial
+    </Button>
   );
 }
 
