@@ -2,6 +2,8 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { AlertCircle, Clock, RotateCcw, Trash2, ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
+import { RetryTimeline } from "@/components/RetryTimeline";
+import { generateMockRetryTimeline } from "@/lib/retryTimelineTypes";
 import {
   type FailedDelivery,
   getFailureReasonDescription,
@@ -34,6 +36,7 @@ export function FailedDeliveryCard({
   onDelete,
 }: FailedDeliveryCardProps) {
   const [expanded, setExpanded] = useState(false);
+  const retryTimeline = generateMockRetryTimeline(delivery.id, delivery.retryCount);
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
@@ -192,31 +195,18 @@ export function FailedDeliveryCard({
             </div>
           </div>
 
-          {/* Retry History */}
+          {/* Retry Timeline */}
           <div>
-            <h4 className="text-xs font-semibold text-muted-foreground mb-2 uppercase">
-              Retry History
+            <h4 className="text-xs font-semibold text-muted-foreground mb-3 uppercase">
+              Retry Timeline
             </h4>
-            <div className="space-y-2">
-              <div className="flex justify-between text-xs">
-                <span className="text-muted-foreground">Last Attempt:</span>
-                <span className="text-foreground">
-                  {lastAttemptTime.toLocaleString()}
-                </span>
-              </div>
-              <div className="flex justify-between text-xs">
-                <span className="text-muted-foreground">Total Attempts:</span>
-                <span className="text-foreground">{delivery.retryCount}</span>
-              </div>
-              <div className="flex justify-between text-xs">
-                <span className="text-muted-foreground">Max Retries:</span>
-                <span className="text-foreground">{delivery.maxRetries}</span>
-              </div>
+            <div className="bg-background/50 rounded-lg p-4 border border-border">
+              <RetryTimeline timeline={retryTimeline} />
             </div>
           </div>
 
           {/* Actions */}
-          <div className="flex gap-2 pt-2">
+          <div className="flex gap-2 pt-4 border-t border-border">
             {delivery.retryStatus !== "succeeded" && (
               <Button
                 onClick={() => onRetry?.(delivery.id)}
