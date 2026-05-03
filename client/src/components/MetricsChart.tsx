@@ -1,14 +1,18 @@
-import { useMemo } from "react";
+import { useState, useMemo } from "react";
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { TrendingUp, TrendingDown } from "lucide-react";
 import {
-  generateSevenDayData,
+  generateTimeSeriesData,
   formatLatency,
   formatSuccessRate,
   getSuccessRateColor,
   getLatencyColor,
+  getTimeRangeLabel,
   type ChartData,
+  type TimeRange,
 } from "@/lib/chartData";
+import { trackTimeRangeChange } from "@/lib/chartAnalytics";
 
 /**
  * MetricsChart Component
@@ -30,11 +34,13 @@ interface MetricsChartProps {
 }
 
 export function MetricsChart({
-  title = "7-Day Performance Metrics",
+  title = "Performance Metrics",
   showLegend = true,
   height = 300,
 }: MetricsChartProps) {
-  const chartData = useMemo(() => generateSevenDayData(), []);
+  const [timeRange, setTimeRange] = useState<TimeRange>("7d");
+
+  const chartData = useMemo(() => generateTimeSeriesData(timeRange), [timeRange]);
 
   // Calculate chart dimensions
   const padding = { top: 20, right: 60, bottom: 40, left: 60 };
@@ -89,24 +95,44 @@ export function MetricsChart({
     <Card className="bg-card border-border p-6">
       <div className="space-y-4">
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-foreground">{title}</h3>
-          <div className="flex items-center gap-2">
-            {chartData.trend === "up" && (
-              <div className="flex items-center gap-1 text-green-400 text-sm">
-                <TrendingUp className="w-4 h-4" />
-                Improving
-              </div>
-            )}
-            {chartData.trend === "down" && (
-              <div className="flex items-center gap-1 text-red-400 text-sm">
-                <TrendingDown className="w-4 h-4" />
-                Declining
-              </div>
-            )}
-            {chartData.trend === "stable" && (
-              <div className="text-gray-400 text-sm">Stable</div>
-            )}
+          <div className="flex items-center gap-4">
+            {/* Time Range Selector */}
+            <div className="flex gap-2">
+              {(["7d", "30d", "90d"] as TimeRange[]).map((range) => (
+                <Button
+                  key={range}
+                  onClick={() => {
+                    setTimeRange(range);
+                    trackTimeRangeChange("Performance Metrics", getTimeRangeLabel(range));
+                  }}
+                  variant={timeRange === range ? "default" : "outline"}
+                  size="sm"
+                  className={timeRange === range ? "bg-accent text-accent-foreground" : ""}
+                >
+                  {range === "7d" ? "7D" : range === "30d" ? "30D" : "90D"}
+                </Button>
+              ))}
+            </div>
+            {/* Trend Indicator */}
+            <div>
+              {chartData.trend === "up" && (
+                <div className="flex items-center gap-1 text-green-400 text-sm">
+                  <TrendingUp className="w-4 h-4" />
+                  Improving
+                </div>
+              )}
+              {chartData.trend === "down" && (
+                <div className="flex items-center gap-1 text-red-400 text-sm">
+                  <TrendingDown className="w-4 h-4" />
+                  Declining
+                </div>
+              )}
+              {chartData.trend === "stable" && (
+                <div className="text-gray-400 text-sm">Stable</div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -225,7 +251,7 @@ export function MetricsChart({
             />
 
             {/* Data points */}
-            {chartData.points.map((point, idx) => (
+            {chartData.points.map((point: any, idx: number) => (
               <g key={`point-${idx}`}>
                 {/* Success rate point */}
                 <circle
@@ -247,7 +273,7 @@ export function MetricsChart({
             ))}
 
             {/* X-axis labels */}
-            {chartData.points.map((point, idx) => (
+            {chartData.points.map((point: any, idx: number) => (
               <text
                 key={`label-${idx}`}
                 x={scaleX(idx)}
