@@ -6,6 +6,7 @@ import { trackPageView } from "@/lib/analytics";
 import { trackDashboardView, trackUpgradeClick } from "@/lib/dashboardAnalytics";
 import { TrialDashboard } from "@/components/TrialDashboard";
 import { SlackStatusWidget } from "@/components/SlackStatusWidget";
+import { TrialNotificationManager } from "@/components/TrialNotificationManager";
 import { Footer } from "@/components/Footer";
 
 /**
@@ -102,6 +103,15 @@ export default function Dashboard() {
 
         {/* Dashboard Content */}
         <TrialDashboard />
+
+        {/* Trial Notifications Section */}
+        <div className="mt-12">
+          <TrialNotificationManager
+            email={userEmail}
+            trialStartDate={new Date(Date.now() - 5 * 24 * 60 * 60 * 1000)}
+            trialDays={14}
+          />
+        </div>
 
         {/* Slack Status Section */}
         <div className="mt-12 p-8 rounded-lg bg-card border border-border">
