@@ -15,6 +15,9 @@ import SlackIntegration from "./pages/SlackIntegration";
 import WebhookIntegration from "./pages/WebhookIntegration";
 import WebhookLogs from "./pages/WebhookLogs";
 import FailedDeliveries from "./pages/FailedDeliveries";
+import EmailVerificationConfirm from "./pages/EmailVerificationConfirm";
+import VerifyEmail from "./pages/VerifyEmail";
+import { EmailVerificationPending } from "./components/EmailVerificationPending";
 import { LiveChatWidget } from "./components/LiveChatWidget";
 
 
@@ -29,6 +32,8 @@ function Router() {
       <Route path={"/webhook-integration"} component={WebhookIntegration} />
       <Route path={"/webhook-logs"} component={WebhookLogs} />
       <Route path={"/failed-deliveries"} component={FailedDeliveries} />
+      <Route path={"/verify-email"} component={VerifyEmail} />
+      <Route path={"/verify-email-confirm"} component={EmailVerificationConfirm} />
       <Route path={"/integration-guides"} component={IntegrationGuides} />
       <Route path={"/blog"} component={Blog} />
       <Route path={"/contact"} component={Contact} />

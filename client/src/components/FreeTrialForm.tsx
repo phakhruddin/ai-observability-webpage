@@ -6,6 +6,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { trackFormSubmission } from "@/lib/analytics";
+import {
+  generateVerificationToken,
+  storeVerificationData,
+  type VerificationUser,
+} from "@/lib/emailVerificationTypes";
 
 /**
  * Free Trial Form Component
@@ -117,19 +122,30 @@ export function FreeTrialForm() {
       setIsSuccess(true);
       trackFormSubmission("Free Trial Form", true);
       
-      // Store user data in localStorage
-      localStorage.setItem("trialUserName", formData.name);
-      localStorage.setItem("trialUserEmail", formData.email);
-      localStorage.setItem("trialCompany", formData.company);
-      localStorage.setItem("trialCompanySize", formData.companySize);
-      localStorage.setItem("trialLogVolume", formData.logVolume);
-      localStorage.setItem("trialStartDate", new Date().toISOString());
-      
-      toast.success("Welcome! Redirecting to your dashboard...");
+      // Create verification user data
+      const verificationUser: VerificationUser = {
+        id: `user_${Date.now()}`,
+        email: formData.email,
+        name: formData.name,
+        company: formData.company,
+        companySize: formData.companySize,
+        logVolume: formData.logVolume,
+        observabilityTools: formData.currentTools,
+        isVerified: false,
+        createdAt: new Date().toISOString(),
+      };
 
-      // Redirect to dashboard after 2 seconds
+      // Generate verification token
+      const verificationToken = generateVerificationToken();
+      
+      // Store verification data
+      storeVerificationData(verificationUser, verificationToken);
+      
+      toast.success("Check your email to verify your account!");
+
+      // Redirect to verification page after 2 seconds
       setTimeout(() => {
-        window.location.href = "/dashboard";
+        window.location.href = "/verify-email";
       }, 2000);
     } catch (err) {
       toast.error("Failed to submit form. Please try again.");
