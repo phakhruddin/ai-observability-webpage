@@ -129,7 +129,7 @@ export function ContactForm() {
           id="name"
           name="name"
           type="text"
-          placeholder="John Doe"
+          placeholder="Jordan Kim"
           value={formData.name}
           onChange={handleChange}
           className={`bg-background border-border text-foreground placeholder:text-muted-foreground ${

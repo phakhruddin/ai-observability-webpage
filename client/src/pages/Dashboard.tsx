@@ -24,7 +24,7 @@ import { Footer } from "@/components/Footer";
 
 export default function Dashboard() {
   const [, setLocation] = useLocation();
-  const [userName, setUserName] = useState("John Doe");
+  const [userName, setUserName] = useState("Alex Chen");
   const [userEmail, setUserEmail] = useState("john@example.com");
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export default function Dashboard() {
     
     // In production, fetch user data from backend
     // For now, we'll use localStorage or props
-    const storedName = localStorage.getItem("trialUserName") || "John Doe";
+    const storedName = localStorage.getItem("trialUserName") || "Alex Chen";
     const storedEmail = localStorage.getItem("trialUserEmail") || "john@example.com";
     setUserName(storedName);
     setUserEmail(storedEmail);

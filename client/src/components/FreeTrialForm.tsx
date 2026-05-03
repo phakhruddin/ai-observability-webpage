@@ -206,7 +206,7 @@ export function FreeTrialForm() {
               id="name"
               name="name"
               type="text"
-              placeholder="John Doe"
+              placeholder="Sarah Martinez"
               value={formData.name}
               onChange={handleChange}
               className={`bg-background border-border text-foreground placeholder:text-muted-foreground ${
