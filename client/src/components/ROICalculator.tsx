@@ -28,14 +28,14 @@ export function ROICalculator() {
   const roi = useMemo(() => {
     const traces = monthlyTraces;
     // Assume $0.001 per trace for current tools (Datadog, Splunk, etc.)
-    const timeToROI = currentToolCost > 0 ? Math.ceil(currentToolCost / monthlySavings) : 0;
-    const debuggingTimeSaved = traces * 0.0001;
-    const productivityGain = debuggingTimeSaved * 150;
     const currentToolCost = traces * 0.001;
     // Assume $0.0002 per trace for OpsNexAI
     const opsnexaiCost = traces * 0.0002;
     const monthlySavings = currentToolCost - opsnexaiCost;
     const annualSavings = monthlySavings * 12;
+    const timeToROI = currentToolCost > 0 ? Math.ceil(currentToolCost / monthlySavings) : 0;
+    const debuggingTimeSaved = traces * 0.0001;
+    const productivityGain = debuggingTimeSaved * 150;
 
     return {
       monthlyTraces: traces,
