@@ -5,6 +5,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Plus, Webhook } from "lucide-react";
 import { WebhookIntegrationGuide } from "@/components/WebhookIntegrationGuide";
 import { WebhookConfig } from "@/components/WebhookConfig";
+import { WebhookSecuritySettings } from "@/components/WebhookSecuritySettings";
+import { SignatureVerificationTester } from "@/components/SignatureVerificationTester";
 import { type WebhookConfig as WebhookConfigType } from "@/lib/webhookTypes";
 
 /**
@@ -60,14 +62,34 @@ export default function WebhookIntegration() {
       {/* Content */}
       <div className="max-w-6xl mx-auto px-4 py-12">
         <Tabs defaultValue="guide" className="space-y-6">
-          <TabsList className="grid w-full max-w-md grid-cols-2">
+          <TabsList className="grid w-full max-w-2xl grid-cols-4">
             <TabsTrigger value="guide">Setup Guide</TabsTrigger>
             <TabsTrigger value="configure">Configure</TabsTrigger>
+            <TabsTrigger value="security">Security</TabsTrigger>
+            <TabsTrigger value="test">Test</TabsTrigger>
           </TabsList>
 
           {/* Guide Tab */}
           <TabsContent value="guide" className="space-y-6">
             <WebhookIntegrationGuide />
+          </TabsContent>
+
+          {/* Security Tab */}
+          <TabsContent value="security" className="space-y-6">
+            <WebhookSecuritySettings webhookId="webhook-1" />
+          </TabsContent>
+
+          {/* Test Tab */}
+          <TabsContent value="test" className="space-y-6">
+            <div className="space-y-6">
+              <Card className="bg-card border-border p-6">
+                <h2 className="text-2xl font-bold text-foreground mb-2">Signature Verification</h2>
+                <p className="text-muted-foreground mb-6">
+                  Test webhook signature verification before deploying to production.
+                </p>
+              </Card>
+              <SignatureVerificationTester secretKey="" />
+            </div>
           </TabsContent>
 
           {/* Configure Tab */}
