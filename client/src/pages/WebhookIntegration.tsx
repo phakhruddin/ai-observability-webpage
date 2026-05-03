@@ -7,6 +7,7 @@ import { WebhookIntegrationGuide } from "@/components/WebhookIntegrationGuide";
 import { WebhookConfig } from "@/components/WebhookConfig";
 import { WebhookSecuritySettings } from "@/components/WebhookSecuritySettings";
 import { SignatureVerificationTester } from "@/components/SignatureVerificationTester";
+import { WebhookEndpointTester } from "@/components/WebhookEndpointTester";
 import { type WebhookConfig as WebhookConfigType } from "@/lib/webhookTypes";
 
 /**
@@ -62,11 +63,12 @@ export default function WebhookIntegration() {
       {/* Content */}
       <div className="max-w-6xl mx-auto px-4 py-12">
         <Tabs defaultValue="guide" className="space-y-6">
-          <TabsList className="grid w-full max-w-2xl grid-cols-4">
+          <TabsList className="grid w-full max-w-2xl grid-cols-5">
             <TabsTrigger value="guide">Setup Guide</TabsTrigger>
             <TabsTrigger value="configure">Configure</TabsTrigger>
             <TabsTrigger value="security">Security</TabsTrigger>
             <TabsTrigger value="test">Test</TabsTrigger>
+            <TabsTrigger value="endpoint">Endpoint Tester</TabsTrigger>
           </TabsList>
 
           {/* Guide Tab */}
@@ -89,6 +91,19 @@ export default function WebhookIntegration() {
                 </p>
               </Card>
               <SignatureVerificationTester secretKey="" />
+            </div>
+          </TabsContent>
+
+          {/* Endpoint Tester Tab */}
+          <TabsContent value="endpoint" className="space-y-6">
+            <div className="space-y-6">
+              <Card className="bg-card border-border p-6">
+                <h2 className="text-2xl font-bold text-foreground mb-2">Endpoint Tester</h2>
+                <p className="text-muted-foreground mb-6">
+                  Send test payloads to your webhook endpoint with valid signatures to verify integration.
+                </p>
+              </Card>
+              <WebhookEndpointTester />
             </div>
           </TabsContent>
 
