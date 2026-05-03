@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ArrowRight, Zap, AlertCircle, TrendingUp, MessageSquare, Clock, CheckCircle } from "lucide-react";
+import { ArrowRight, Zap, AlertCircle, TrendingUp, MessageSquare, Clock, CheckCircle, Home } from "lucide-react";
 import { useLocation } from "wouter";
 import { OAASTestimonials } from "@/components/OAASTestimonials";
 
@@ -17,6 +17,22 @@ export default function OAAS() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      {/* Navigation Header */}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
+        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+          <h1 className="text-lg font-semibold text-foreground">OAAS</h1>
+          <Button
+            onClick={() => setLocation("/")}
+            variant="outline"
+            size="sm"
+            className="flex items-center gap-2"
+          >
+            <Home className="w-4 h-4" />
+            Home
+          </Button>
+        </div>
+      </div>
+
       {/* Hero Section */}
       <section className="relative overflow-hidden pt-32 pb-20 px-4">
         <div

@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Calendar, User, TrendingUp, Clock, AlertCircle, DollarSign } from "lucide-react";
+import { ArrowRight, Calendar, User, TrendingUp, Clock, AlertCircle, DollarSign, Home } from "lucide-react";
 import { useLocation } from "wouter";
 
 /**
@@ -254,6 +254,22 @@ export default function Blog() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      {/* Navigation Header */}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
+        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+          <h1 className="text-lg font-semibold text-foreground">Blog</h1>
+          <Button
+            onClick={() => setLocation("/")}
+            variant="outline"
+            size="sm"
+            className="flex items-center gap-2"
+          >
+            <Home className="w-4 h-4" />
+            Home
+          </Button>
+        </div>
+      </div>
+
       {/* Header */}
       <section className="pt-32 pb-12 px-4 border-b border-accent/10">
         <div className="container max-w-4xl mx-auto">
