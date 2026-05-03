@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "wouter";
-import { ArrowLeft, Slack, Download, ExternalLink } from "lucide-react";
+import { ArrowLeft, Slack, Download, ExternalLink, Video } from "lucide-react";
 import { trackPageView } from "@/lib/analytics";
-import { trackSlackGuideStart, trackSlackBotSetup, trackSlackNotificationTest } from "@/lib/guideAnalytics";
+import { trackSlackGuideStart, trackSlackBotSetup } from "@/lib/guideAnalytics";
 import { SlackIntegrationGuide } from "@/components/SlackIntegrationGuide";
+import { VideoPlayer } from "@/components/VideoPlayer";
 import { Footer } from "@/components/Footer";
 
 /**
@@ -138,6 +139,20 @@ export default function SlackIntegration() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Video Walkthrough */}
+        <div className="mb-12 p-8 rounded-lg bg-card border border-border">
+          <div className="flex items-center gap-3 mb-6">
+            <Video className="w-6 h-6 text-accent" />
+            <h2 className="text-2xl font-bold text-foreground">Video Walkthrough</h2>
+          </div>
+          <VideoPlayer
+            videoUrl="/manus-storage/slack-integration-walkthrough_bfb8a226.mp4"
+            title="Slack Integration Setup - 5 Minutes"
+            description="Watch this step-by-step video to learn how to connect your Slack workspace to OAAS for real-time alerts and notifications."
+            duration="5:00"
+          />
         </div>
 
         {/* Integration Guide Component */}
