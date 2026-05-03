@@ -10,6 +10,7 @@ import {
   DiagnosticItem,
   type HealthStatus,
 } from "@/components/StatusIndicator";
+import { MetricsChart } from "@/components/MetricsChart";
 import { toast } from "sonner";
 import { trackStatusRefresh, trackTestMessageSent, trackPermissionsReview, trackSlackAppSettings, trackReconnect } from "@/lib/statusWidgetAnalytics";
 
@@ -277,6 +278,13 @@ export function SlackStatusWidget() {
           </div>
         </Card>
       </div>
+
+      {/* Performance Metrics Chart */}
+      <MetricsChart
+        title="7-Day Performance Metrics"
+        showLegend={true}
+        height={320}
+      />
 
       {/* Diagnostics */}
       <Card className="bg-card border-border p-6">
