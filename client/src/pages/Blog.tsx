@@ -274,15 +274,23 @@ export default function Blog() {
       {/* Header */}
       <section className="pt-32 pb-12 px-4 border-b border-accent/10">
         <div className="container max-w-4xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Case Studies & Blog</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">Resources</h1>
           <p className="text-xl text-muted-foreground">
-            Real stories from real SMBs. See how OAAS transformed their incident response and reduced operational costs.
+            Learn from real implementations. Explore case studies showcasing how SMBs transformed their observability, then dive into technical insights and industry trends.
           </p>
         </div>
       </section>
 
-      {/* Case Studies */}
+      {/* Case Studies Section */}
       <section className="py-16 px-4">
+        <div className="container max-w-4xl mx-auto mb-8">
+          <h2 className="text-3xl font-bold mb-2">Customer Case Studies</h2>
+          <p className="text-lg text-muted-foreground">Real stories from teams transforming their incident response with OAAS</p>
+        </div>
+      </section>
+
+      {/* Case Studies */}
+      <section className="py-16 px-4 pt-0">
         <div className="container max-w-4xl mx-auto space-y-24">
           {caseStudies.map((study, idx) => (
             <div key={idx} className="scroll-mt-32" id={`case-study-${idx}`}>
@@ -321,11 +329,51 @@ export default function Blog() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
+      {/* Blog Articles Section */}
       <section className="py-20 bg-card/50 border-t border-accent/10">
-        <div className="container max-w-4xl mx-auto px-4">
+        <div className="container max-w-4xl mx-auto px-4 mb-12">
+          <h2 className="text-3xl font-bold mb-2">Technical Insights & Industry Trends</h2>
+          <p className="text-lg text-muted-foreground">Deep dives into observability best practices, product updates, and AI in monitoring</p>
+        </div>
+        <div className="container max-w-4xl mx-auto px-4 space-y-8">
+          <article className="border-b border-accent/10 pb-8 last:border-b-0">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
+              <Calendar className="w-4 h-4" />
+              <span>May 2026</span>
+              <span className="mx-2">•</span>
+              <User className="w-4 h-4" />
+              <span>Product Team</span>
+            </div>
+            <h3 className="text-2xl font-bold mb-3">The Future of AI-Powered Observability</h3>
+            <p className="text-muted-foreground mb-4">Explore how AI is transforming incident response, from anomaly detection to root cause analysis. Learn what's next in observability.</p>
+            <button className="text-accent hover:text-accent/80 flex items-center gap-2">
+              Read Article <ArrowRight className="w-4 h-4" />
+            </button>
+          </article>
+          <article className="border-b border-accent/10 pb-8 last:border-b-0">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
+              <Calendar className="w-4 h-4" />
+              <span>April 2026</span>
+              <span className="mx-2">•</span>
+              <User className="w-4 h-4" />
+              <span>Engineering</span>
+            </div>
+            <h3 className="text-2xl font-bold mb-3">Best Practices: Setting Up Alert Rules for Maximum Signal</h3>
+            <p className="text-muted-foreground mb-4">Master the art of alert configuration. Learn how to reduce noise, improve signal-to-noise ratio, and build rules that actually matter.</p>
+            <button className="text-accent hover:text-accent/80 flex items-center gap-2">
+              Read Article <ArrowRight className="w-4 h-4" />
+            </button>
+          </article>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-20 border-t border-accent/10">
+        <div className="container max-w-4xl mx-auto px-4 mb-12">
           <h2 className="text-3xl font-bold mb-2">Success Stories</h2>
-          <p className="text-lg text-muted-foreground mb-12">Hear from teams using OAAS to transform their AI observability</p>
+          <p className="text-lg text-muted-foreground">Hear from teams using OAAS to transform their observability</p>
+        </div>
+        <div className="container max-w-4xl mx-auto px-4">
           <TestimonialsSection />
         </div>
       </section>
