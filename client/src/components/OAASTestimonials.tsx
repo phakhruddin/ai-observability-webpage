@@ -64,14 +64,6 @@ export function OAASTestimonials() {
   return (
     <section className="py-20 bg-background">
       <div className="container">
-        {/* Header */}
-        <div className="mb-16 text-center">
-          <h2 className="text-4xl font-bold mb-4">Trusted by Engineering Teams</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            See how teams are transforming their incident response with OAAS
-          </p>
-        </div>
-
         {/* Testimonials Grid */}
         <div className="grid md:grid-cols-2 gap-8 mb-16">
           {oaasTestimonials.map((testimonial) => (
@@ -125,27 +117,7 @@ export function OAASTestimonials() {
           ))}
         </div>
 
-        {/* Trust Indicators */}
-        <div className="bg-card border border-border/50 rounded-lg p-12">
-          <div className="grid md:grid-cols-4 gap-8 text-center">
-            <div>
-              <p className="text-3xl font-bold text-accent mb-2">500+</p>
-              <p className="text-muted-foreground">Active Teams</p>
-            </div>
-            <div>
-              <p className="text-3xl font-bold text-accent mb-2">99.9%</p>
-              <p className="text-muted-foreground">Uptime SLA</p>
-            </div>
-            <div>
-              <p className="text-3xl font-bold text-accent mb-2">$2.5M</p>
-              <p className="text-muted-foreground">Saved Annually</p>
-            </div>
-            <div>
-              <p className="text-3xl font-bold text-accent mb-2">4.8/5</p>
-              <p className="text-muted-foreground">Average Rating</p>
-            </div>
-          </div>
-        </div>
+
       </div>
     </section>
   );
