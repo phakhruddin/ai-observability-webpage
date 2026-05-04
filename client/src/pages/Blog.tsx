@@ -2,6 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar, User, TrendingUp, Clock, AlertCircle, DollarSign, Home } from "lucide-react";
 import { useLocation } from "wouter";
+import { TestimonialsSection } from "@/components/TestimonialsSection";
 
 /**
  * OAAS Blog & Case Studies
@@ -317,6 +318,15 @@ export default function Blog() {
               Learn About OAAS
             </Button>
           </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-20 bg-card/50 border-t border-accent/10">
+        <div className="container max-w-4xl mx-auto px-4">
+          <h2 className="text-3xl font-bold mb-2">Success Stories</h2>
+          <p className="text-lg text-muted-foreground mb-12">Hear from teams using OAAS to transform their AI observability</p>
+          <TestimonialsSection />
         </div>
       </section>
 

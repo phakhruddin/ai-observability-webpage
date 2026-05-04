@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { trackPageView, trackCTAClick, trackFeatureInteraction, trackModalOpen } from "@/lib/analytics";
 import { AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from "recharts";
 import { FeatureComparisonModal } from "@/components/FeatureComparisonModal";
-import { TestimonialsSection } from "@/components/TestimonialsSection";
+
 import { Footer } from "@/components/Footer";
 import { InteractiveDemo } from "@/components/InteractiveDemo";
 import { ROICalculator } from "@/components/ROICalculator";
@@ -115,7 +115,7 @@ export default function Home() {
           <nav className="hidden md:flex gap-8">
             <a href="#features" className="text-sm text-muted-foreground hover:text-accent transition-colors">Features</a>
             <a href="#comparison" className="text-sm text-muted-foreground hover:text-accent transition-colors">Comparison</a>
-            <a href="#testimonials" className="text-sm text-muted-foreground hover:text-accent transition-colors">Testimonials</a>
+
             <a href="#pricing" className="text-sm text-muted-foreground hover:text-accent transition-colors">Pricing</a>
             <a href="/oaas" className="text-sm text-muted-foreground hover:text-accent transition-colors">OAAS</a>
             <a href="/blog" className="text-sm text-muted-foreground hover:text-accent transition-colors">Blog</a>
@@ -330,11 +330,6 @@ export default function Home() {
 
       {/* Interactive Demo Section */}
       <InteractiveDemo />
-
-      {/* Testimonials Section */}
-      <div id="testimonials">
-        <TestimonialsSection />
-      </div>
 
       {/* Core Platform Features */}
       <section id="features" className="py-20 bg-card">
