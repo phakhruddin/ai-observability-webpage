@@ -1,8 +1,13 @@
 import { Card } from "@/components/ui/card";
+import { useState, useMemo } from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar, User, TrendingUp, Clock, AlertCircle, DollarSign, Home } from "lucide-react";
 import { useLocation } from "wouter";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
+import { ResourceSearchBar } from "@/components/ResourceSearchBar";
+import { ResourceFilterPanel } from "@/components/ResourceFilterPanel";
+import { ResourceResults } from "@/components/ResourceResults";
+import { allResources, searchResources, ResourceType, Industry, UseCaseCategory, Topic } from "@/lib/resourceMetadata";
 
 /**
  * OAAS Blog & Case Studies
@@ -253,6 +258,20 @@ export default function Blog() {
     },
   ];
 
+  // Search and filter state
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filters, setFilters] = useState<{
+    types?: ResourceType[];
+    industries?: Industry[];
+    useCases?: UseCaseCategory[];
+    topics?: Topic[];
+  }>({});
+
+  // Filter resources based on search and filters
+  const filteredResources = useMemo(() => {
+    return searchResources(allResources, searchQuery, filters);
+  }, [searchQuery, filters]);
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Navigation Header */}
@@ -282,6 +301,27 @@ export default function Blog() {
       </section>
 
       {/* Case Studies Section */}
+
+      {/* Search and Filter Section */}
+      <section className="py-8 px-4 border-b border-accent/10 bg-card/30">
+        <div className="container max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            {/* Filters Sidebar */}
+            <div className="lg:col-span-1">
+              <ResourceFilterPanel onFilterChange={setFilters} />
+            </div>
+
+            {/* Search and Results */}
+            <div className="lg:col-span-3 space-y-6">
+              <ResourceSearchBar
+                onSearch={setSearchQuery}
+                placeholder="Search case studies, articles, testimonials..."
+              />
+              <ResourceResults resources={filteredResources} />
+            </div>
+          </div>
+        </div>
+      </section>
       <section className="py-16 px-4">
         <div className="container max-w-4xl mx-auto mb-8">
           <h2 className="text-3xl font-bold mb-2">Customer Case Studies</h2>
