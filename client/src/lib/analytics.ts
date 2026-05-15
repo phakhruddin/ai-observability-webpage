@@ -19,7 +19,8 @@ export type EventCategory =
   | 'feature_interaction'
   | 'modal_open'
   | 'download'
-  | 'navigation';
+  | 'navigation'
+  | 'recommendations';
 
 export interface AnalyticsEvent {
   category: EventCategory;

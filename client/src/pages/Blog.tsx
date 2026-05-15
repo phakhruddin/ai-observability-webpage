@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card";
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar, User, TrendingUp, Clock, AlertCircle, DollarSign, Home } from "lucide-react";
 import { useLocation } from "wouter";
@@ -7,7 +7,10 @@ import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { ResourceSearchBar } from "@/components/ResourceSearchBar";
 import { ResourceFilterPanel } from "@/components/ResourceFilterPanel";
 import { ResourceResults } from "@/components/ResourceResults";
+import { ResourceRecommendation } from "@/components/ResourceRecommendation";
 import { allResources, searchResources, ResourceType, Industry, UseCaseCategory, Topic } from "@/lib/resourceMetadata";
+import { getRecommendationsForUser, getTrendingResources, loadUserBehavior, recordSearchQuery, recordAppliedFilters } from "@/lib/recommendationEngine";
+import { trackSearchQuery, trackFilterApplied } from "@/lib/searchAnalytics";
 
 /**
  * OAAS Blog & Case Studies
@@ -266,11 +269,43 @@ export default function Blog() {
     useCases?: UseCaseCategory[];
     topics?: Topic[];
   }>({});
+  const [userBehavior, setUserBehavior] = useState(loadUserBehavior());
+  const [recommendations, setRecommendations] = useState(getRecommendationsForUser(userBehavior, 3));
+  const [trendingResources, setTrendingResources] = useState(getTrendingResources(3));
 
   // Filter resources based on search and filters
   const filteredResources = useMemo(() => {
     return searchResources(allResources, searchQuery, filters);
   }, [searchQuery, filters]);
+
+  // Track search queries and update recommendations
+  useEffect(() => {
+    if (searchQuery.trim()) {
+      recordSearchQuery(searchQuery);
+      trackSearchQuery(searchQuery, filteredResources.length);
+      const updatedBehavior = loadUserBehavior();
+      setUserBehavior(updatedBehavior);
+      setRecommendations(getRecommendationsForUser(updatedBehavior, 3));
+    }
+  }, [searchQuery, filteredResources.length]);
+
+  // Track filter changes and update recommendations
+  useEffect(() => {
+    const hasFilters = Object.values(filters).some((f) => f && f.length > 0);
+    if (hasFilters) {
+      recordAppliedFilters(filters);
+      Object.entries(filters).forEach(([filterType, values]) => {
+        if (values && values.length > 0) {
+          values.forEach((value) => {
+            trackFilterApplied(filterType, String(value));
+          });
+        }
+      });
+      const updatedBehavior = loadUserBehavior();
+      setUserBehavior(updatedBehavior);
+      setRecommendations(getRecommendationsForUser(updatedBehavior, 3));
+    }
+  }, [filters]);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -322,6 +357,32 @@ export default function Blog() {
           </div>
         </div>
       </section>
+
+      {/* Recommendations Section */}
+      {recommendations.length > 0 && (
+        <section className="py-12 px-4 border-b border-accent/10 bg-accent/5">
+          <div className="container max-w-6xl mx-auto">
+            <ResourceRecommendation
+              recommendations={recommendations}
+              type="user-behavior"
+              maxDisplay={3}
+            />
+          </div>
+        </section>
+      )}
+
+      {/* Trending Resources Section */}
+      {trendingResources.length > 0 && (
+        <section className="py-12 px-4 border-b border-accent/10">
+          <div className="container max-w-6xl mx-auto">
+            <ResourceRecommendation
+              recommendations={trendingResources}
+              type="trending"
+              maxDisplay={3}
+            />
+          </div>
+        </section>
+      )}
       <section className="py-16 px-4">
         <div className="container max-w-4xl mx-auto mb-8">
           <h2 className="text-3xl font-bold mb-2">Customer Case Studies</h2>

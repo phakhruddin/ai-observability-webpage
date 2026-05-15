@@ -1,5 +1,7 @@
 import { ResourceMetadata, ResourceType } from '@/lib/resourceMetadata';
 import { Calendar, User, Tag, BookOpen } from 'lucide-react';
+import { recordClickedResource } from '@/lib/recommendationEngine';
+import { trackResourceClicked } from '@/lib/searchAnalytics';
 
 interface ResourceResultsProps {
   resources: ResourceMetadata[];
@@ -69,6 +71,10 @@ export function ResourceResults({ resources, isLoading = false }: ResourceResult
         <article
           key={resource.id}
           className="group p-6 bg-card/50 border border-accent/10 rounded-lg hover:border-accent/30 hover:bg-card/80 transition-all cursor-pointer"
+          onClick={() => {
+            recordClickedResource(resource.id);
+            trackResourceClicked(resource.id, resource.type);
+          }}
         >
           <div className="flex items-start gap-4">
             <div className="text-3xl">{getResourceIcon(resource.type)}</div>
