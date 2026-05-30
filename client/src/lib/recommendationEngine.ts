@@ -1,4 +1,11 @@
 import { ResourceMetadata, allResources } from './resourceMetadata';
+import {
+  loadUserPreferences,
+  addUserInterest,
+  addSearchToHistory,
+  recordRecommendationShown,
+  recordRecommendationClick as recordPrefClick,
+} from './userPreferences';
 
 /**
  * Recommendation Engine for AI Observability Resources
@@ -327,7 +334,7 @@ export function saveUserBehavior(behavior: UserBehavior): void {
 }
 
 // Record a search query
-export function recordSearchQuery(query: string): void {
+export function recordSearchQuery(query: string, resultCount: number = 0, filters?: any): void {
   const behavior = loadUserBehavior();
   if (query && !behavior.searchQueries.includes(query)) {
     behavior.searchQueries.push(query);
@@ -337,6 +344,10 @@ export function recordSearchQuery(query: string): void {
     }
     saveUserBehavior(behavior);
   }
+
+  // Also record in user preferences for dashboard
+  const prefs = loadUserPreferences();
+  addSearchToHistory(prefs, query, resultCount, filters);
 }
 
 // Record applied filters
@@ -348,6 +359,24 @@ export function recordAppliedFilters(filters: {
   const behavior = loadUserBehavior();
   behavior.appliedFilters = filters;
   saveUserBehavior(behavior);
+
+  // Track as user interests
+  const prefs = loadUserPreferences();
+  if (filters.industries && filters.industries.length > 0) {
+    filters.industries.forEach((ind) => {
+      addUserInterest(prefs, 'industry', ind, 0.6);
+    });
+  }
+  if (filters.useCases && filters.useCases.length > 0) {
+    filters.useCases.forEach((uc) => {
+      addUserInterest(prefs, 'useCase', uc, 0.6);
+    });
+  }
+  if (filters.topics && filters.topics.length > 0) {
+    filters.topics.forEach((topic) => {
+      addUserInterest(prefs, 'topic', topic, 0.6);
+    });
+  }
 }
 
 // Record a viewed resource
@@ -373,6 +402,24 @@ export function recordClickedResource(resourceId: string): void {
       behavior.clickedResourceIds = behavior.clickedResourceIds.slice(-20);
     }
     saveUserBehavior(behavior);
+  }
+
+  // Also record in user preferences
+  const prefs = loadUserPreferences();
+  recordPrefClick(prefs, resourceId);
+
+  // Track resource metadata as interests
+  const resource = allResources.find((r) => r.id === resourceId);
+  if (resource) {
+    resource.industries.forEach((ind) => {
+      addUserInterest(prefs, 'industry', ind, 0.8);
+    });
+    resource.useCases.forEach((uc) => {
+      addUserInterest(prefs, 'useCase', uc, 0.8);
+    });
+    resource.topics.forEach((topic) => {
+      addUserInterest(prefs, 'topic', topic, 0.7);
+    });
   }
 }
 

@@ -9,6 +9,7 @@ import Contact from "./pages/Contact";
 import OAAS from "./pages/OAAS";
 import IntegrationGuides from "./pages/IntegrationGuides";
 import Blog from "./pages/Blog";
+import { UserProfile } from "./pages/UserProfile";
 import FreeTrial from "./pages/FreeTrial";
 import Dashboard from "./pages/Dashboard";
 import SlackIntegration from "./pages/SlackIntegration";
@@ -38,6 +39,7 @@ function Router() {
       <Route path={"/verify-email-confirm"} component={EmailVerificationConfirm} />
       <Route path={"/integration-guides"} component={IntegrationGuides} />
       <Route path={"/blog"} component={Blog} />
+      <Route path={"/profile"} component={UserProfile} />
       <Route path={"/contact"} component={Contact} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}

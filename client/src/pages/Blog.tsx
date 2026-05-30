@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { useState, useMemo, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Calendar, User, TrendingUp, Clock, AlertCircle, DollarSign, Home } from "lucide-react";
+import { ArrowRight, Calendar, User, TrendingUp, Clock, AlertCircle, DollarSign, Home, User as UserIcon } from "lucide-react";
 import { useLocation } from "wouter";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { ResourceSearchBar } from "@/components/ResourceSearchBar";
@@ -313,15 +313,26 @@ export default function Blog() {
       <div className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <h1 className="text-lg font-semibold text-foreground">Blog</h1>
-          <Button
-            onClick={() => setLocation("/")}
-            variant="outline"
-            size="sm"
-            className="flex items-center gap-2"
-          >
-            <Home className="w-4 h-4" />
-            Home
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              onClick={() => setLocation("/profile")}
+              variant="outline"
+              size="sm"
+              className="flex items-center gap-2"
+            >
+              <User className="w-4 h-4" />
+              Profile
+            </Button>
+            <Button
+              onClick={() => setLocation("/")}
+              variant="outline"
+              size="sm"
+              className="flex items-center gap-2"
+            >
+              <Home className="w-4 h-4" />
+              Home
+            </Button>
+          </div>
         </div>
       </div>
 
