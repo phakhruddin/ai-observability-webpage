@@ -9,7 +9,7 @@ import { ResourceFilterPanel } from "@/components/ResourceFilterPanel";
 import { ResourceResults } from "@/components/ResourceResults";
 import { ResourceRecommendation } from "@/components/ResourceRecommendation";
 import { allResources, searchResources, ResourceType, Industry, UseCaseCategory, Topic } from "@/lib/resourceMetadata";
-import { getRecommendationsForUser, getTrendingResources, loadUserBehavior, recordSearchQuery, recordAppliedFilters } from "@/lib/recommendationEngine";
+import { getRecommendationsForUser, getTrendingResources, loadUserBehavior, recordSearchQuery, recordAppliedFilters, getAllRecommendations } from "@/lib/recommendationEngine";
 import { trackSearchQuery, trackFilterApplied } from "@/lib/searchAnalytics";
 
 /**
@@ -270,7 +270,7 @@ export default function Blog() {
     topics?: Topic[];
   }>({});
   const [userBehavior, setUserBehavior] = useState(loadUserBehavior());
-  const [recommendations, setRecommendations] = useState(getRecommendationsForUser(userBehavior, 3));
+  const [recommendations, setRecommendations] = useState(getAllRecommendations(loadUserBehavior(), 3));
   const [trendingResources, setTrendingResources] = useState(getTrendingResources(3));
 
   // Filter resources based on search and filters
@@ -285,7 +285,7 @@ export default function Blog() {
       trackSearchQuery(searchQuery, filteredResources.length);
       const updatedBehavior = loadUserBehavior();
       setUserBehavior(updatedBehavior);
-      setRecommendations(getRecommendationsForUser(updatedBehavior, 3));
+      setRecommendations(getAllRecommendations(updatedBehavior, 3));
     }
   }, [searchQuery, filteredResources.length]);
 
@@ -303,7 +303,7 @@ export default function Blog() {
       });
       const updatedBehavior = loadUserBehavior();
       setUserBehavior(updatedBehavior);
-      setRecommendations(getRecommendationsForUser(updatedBehavior, 3));
+      setRecommendations(getAllRecommendations(updatedBehavior, 3));
     }
   }, [filters]);
 

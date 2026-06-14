@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Trash2, Plus, TrendingUp, Clock, BarChart3, Settings } from 'lucide-react';
+import { ArrowLeft, Trash2, Plus, TrendingUp, Clock, BarChart3, Settings, Filter } from 'lucide-react';
 import {
   loadUserPreferences,
   saveUserPreferences,
@@ -12,6 +12,7 @@ import {
   getTopInterestsByCategory,
   updatePersonalizationSettings,
   deleteAllUserData,
+  updateRecommendationFilters,
   UserPreferences,
 } from '@/lib/userPreferences';
 import { allResources } from '@/lib/resourceMetadata';
@@ -30,7 +31,7 @@ import { allResources } from '@/lib/resourceMetadata';
 export function UserProfile() {
   const [, setLocation] = useLocation();
   const [preferences, setPreferences] = useState<UserPreferences | null>(null);
-  const [activeTab, setActiveTab] = useState<'interests' | 'history' | 'stats' | 'settings'>('interests');
+  const [activeTab, setActiveTab] = useState<'interests' | 'history' | 'stats' | 'settings' | 'filters'>('interests');
   const [stats, setStats] = useState(getRecommendationStats(null));
 
   useEffect(() => {
@@ -80,6 +81,13 @@ export function UserProfile() {
     setPreferences(updated);
   };
 
+  const handleToggleFilter = (filterType: 'showTrending' | 'showSimilar' | 'showUserBehavior') => {
+    const updated = updateRecommendationFilters(preferences, {
+      [filterType]: !preferences.recommendationFilters[filterType],
+    });
+    setPreferences(updated);
+  };
+
   const topIndustries = getTopInterestsByCategory(preferences, 'industry', 5);
   const topUseCases = getTopInterestsByCategory(preferences, 'useCase', 5);
   const topTopics = getTopInterestsByCategory(preferences, 'topic', 5);
@@ -104,7 +112,7 @@ export function UserProfile() {
 
           {/* Tab Navigation */}
           <div className="flex gap-2 border-b border-accent/10">
-            {(['interests', 'history', 'stats', 'settings'] as const).map((tab) => (
+            {(['interests', 'history', 'stats', 'filters', 'settings'] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -117,6 +125,7 @@ export function UserProfile() {
                 {tab === 'interests' && 'Interests'}
                 {tab === 'history' && 'Search History'}
                 {tab === 'stats' && 'Statistics'}
+                {tab === 'filters' && 'Filters'}
                 {tab === 'settings' && 'Settings'}
               </button>
             ))}
@@ -398,24 +407,35 @@ export function UserProfile() {
 
             {/* Recommendation Frequency */}
             <Card className="p-6">
-              <p className="font-medium mb-4">Recommendation Frequency</p>
-              <div className="space-y-2">
-                {(['always', 'often', 'sometimes', 'rarely'] as const).map((freq) => (
-                  <label key={freq} className="flex items-center gap-3 cursor-pointer">
+              <div className="mb-4">
+                <p className="font-medium text-lg">Recommendation Frequency</p>
+                <p className="text-sm text-muted-foreground mt-1">How often recommendations appear on the Blog page</p>
+              </div>
+              <div className="space-y-3">
+                {[
+                  { value: 'always' as const, label: 'Always', description: 'Show recommendations on every page load' },
+                  { value: 'often' as const, label: 'Often', description: 'Show recommendations frequently' },
+                  { value: 'sometimes' as const, label: 'Sometimes', description: 'Show recommendations occasionally' },
+                  { value: 'rarely' as const, label: 'Rarely', description: 'Show recommendations infrequently' },
+                ].map((freq) => (
+                  <label key={freq.value} className="flex items-start gap-3 cursor-pointer p-3 rounded-lg hover:bg-accent/5 transition-colors">
                     <input
                       type="radio"
                       name="frequency"
-                      checked={preferences.settings.recommendationFrequency === freq}
+                      checked={preferences.settings.recommendationFrequency === freq.value}
                       onChange={() =>
                         setPreferences(
                           updatePersonalizationSettings(preferences, {
-                            recommendationFrequency: freq,
+                            recommendationFrequency: freq.value,
                           })
                         )
                       }
-                      className="w-4 h-4"
+                      className="w-4 h-4 mt-1"
                     />
-                    <span className="capitalize">{freq}</span>
+                    <div className="flex-1">
+                      <p className="font-medium">{freq.label}</p>
+                      <p className="text-sm text-muted-foreground">{freq.description}</p>
+                    </div>
                   </label>
                 ))}
               </div>
@@ -445,6 +465,119 @@ export function UserProfile() {
                   <Trash2 className="w-4 h-4 mr-2" />
                   Delete All My Data
                 </Button>
+              </div>
+            </Card>
+          </div>
+        )}
+
+        {/* Filters Tab */}
+        {activeTab === 'filters' && (
+          <div className="space-y-6">
+            <div className="flex items-center gap-2 mb-6">
+              <Filter className="w-5 h-5 text-accent" />
+              <h2 className="text-xl font-bold">Recommendation Filters</h2>
+            </div>
+
+            <p className="text-muted-foreground mb-6">
+              Choose which types of recommendations you'd like to see. You can enable or disable each type to customize your experience.
+            </p>
+
+            {/* Filter Toggles */}
+            <div className="space-y-4">
+              <Card className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="font-medium text-lg">User Behavior Recommendations</p>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      Resources based on your search history and interests
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => handleToggleFilter('showUserBehavior')}
+                    className={`relative w-12 h-6 rounded-full transition-colors ${
+                      preferences.recommendationFilters.showUserBehavior ? 'bg-accent' : 'bg-muted'
+                    }`}
+                  >
+                    <div
+                      className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform ${
+                        preferences.recommendationFilters.showUserBehavior ? 'translate-x-6' : ''
+                      }`}
+                    />
+                  </button>
+                </div>
+              </Card>
+
+              <Card className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="font-medium text-lg">Trending Resources</p>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      Popular resources from the community
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => handleToggleFilter('showTrending')}
+                    className={`relative w-12 h-6 rounded-full transition-colors ${
+                      preferences.recommendationFilters.showTrending ? 'bg-accent' : 'bg-muted'
+                    }`}
+                  >
+                    <div
+                      className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform ${
+                        preferences.recommendationFilters.showTrending ? 'translate-x-6' : ''
+                      }`}
+                    />
+                  </button>
+                </div>
+              </Card>
+
+              <Card className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="font-medium text-lg">Similar Resources</p>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      Resources similar to ones you've viewed
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => handleToggleFilter('showSimilar')}
+                    className={`relative w-12 h-6 rounded-full transition-colors ${
+                      preferences.recommendationFilters.showSimilar ? 'bg-accent' : 'bg-muted'
+                    }`}
+                  >
+                    <div
+                      className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform ${
+                        preferences.recommendationFilters.showSimilar ? 'translate-x-6' : ''
+                      }`}
+                    />
+                  </button>
+                </div>
+              </Card>
+            </div>
+
+            {/* Active Filters Summary */}
+            <Card className="p-6 bg-accent/5 border-accent/20">
+              <p className="font-medium mb-3">Active Filters</p>
+              <div className="flex flex-wrap gap-2">
+                {preferences.recommendationFilters.showUserBehavior && (
+                  <span className="px-3 py-1 bg-accent/20 text-accent text-sm rounded-full">
+                    User Behavior
+                  </span>
+                )}
+                {preferences.recommendationFilters.showTrending && (
+                  <span className="px-3 py-1 bg-accent/20 text-accent text-sm rounded-full">
+                    Trending
+                  </span>
+                )}
+                {preferences.recommendationFilters.showSimilar && (
+                  <span className="px-3 py-1 bg-accent/20 text-accent text-sm rounded-full">
+                    Similar Resources
+                  </span>
+                )}
+                {!preferences.recommendationFilters.showUserBehavior &&
+                  !preferences.recommendationFilters.showTrending &&
+                  !preferences.recommendationFilters.showSimilar && (
+                    <p className="text-muted-foreground text-sm">No filters active. Enable at least one filter to see recommendations.</p>
+                  )}
               </div>
             </Card>
           </div>

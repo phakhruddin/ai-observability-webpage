@@ -33,6 +33,12 @@ export interface RecommendationHistoryEntry {
   dismissedAt?: number;
 }
 
+export interface RecommendationFilters {
+  showTrending: boolean;
+  showSimilar: boolean;
+  showUserBehavior: boolean;
+}
+
 export interface UserPreferences {
   userId: string;
   createdAt: number;
@@ -46,6 +52,7 @@ export interface UserPreferences {
     recommendationFrequency: 'always' | 'often' | 'sometimes' | 'rarely';
     preferredResourceTypes: string[];
   };
+  recommendationFilters: RecommendationFilters;
 }
 
 const STORAGE_KEY = 'user_preferences_v1';
@@ -62,6 +69,11 @@ const DEFAULT_PREFERENCES: UserPreferences = {
     recommendationFrequency: 'often',
     preferredResourceTypes: [],
   },
+  recommendationFilters: {
+    showTrending: true,
+    showSimilar: true,
+    showUserBehavior: true,
+  },
 };
 
 function generateUserId(): string {
@@ -75,7 +87,12 @@ export function loadUserPreferences(): UserPreferences {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
-      return JSON.parse(stored);
+      const prefs = JSON.parse(stored);
+      // Ensure new properties exist for backward compatibility
+      if (!prefs.recommendationFilters) {
+        prefs.recommendationFilters = DEFAULT_PREFERENCES.recommendationFilters;
+      }
+      return prefs;
     }
   } catch (error) {
     console.error('Failed to load user preferences:', error);
@@ -317,4 +334,48 @@ export function exportUserData(preferences: UserPreferences): string {
  */
 export function deleteAllUserData(): void {
   localStorage.removeItem(STORAGE_KEY);
+}
+
+/**
+ * Update recommendation filters
+ */
+export function updateRecommendationFilters(
+  preferences: UserPreferences,
+  filters: Partial<RecommendationFilters>
+): UserPreferences {
+  const updated = { ...preferences };
+  updated.recommendationFilters = {
+    ...updated.recommendationFilters,
+    ...filters,
+  };
+  saveUserPreferences(updated);
+  return updated;
+}
+
+/**
+ * Get active recommendation types based on filters
+ */
+export function getActiveRecommendationTypes(preferences: UserPreferences): Array<'user-behavior' | 'trending' | 'similar'> {
+  const types: Array<'user-behavior' | 'trending' | 'similar'> = [];
+  if (preferences.recommendationFilters.showUserBehavior) types.push('user-behavior');
+  if (preferences.recommendationFilters.showTrending) types.push('trending');
+  if (preferences.recommendationFilters.showSimilar) types.push('similar');
+  return types;
+}
+
+/**
+ * Check if a recommendation type is enabled
+ */
+export function isRecommendationTypeEnabled(
+  preferences: UserPreferences,
+  type: 'user-behavior' | 'trending' | 'similar'
+): boolean {
+  switch (type) {
+    case 'user-behavior':
+      return preferences.recommendationFilters.showUserBehavior;
+    case 'trending':
+      return preferences.recommendationFilters.showTrending;
+    case 'similar':
+      return preferences.recommendationFilters.showSimilar;
+  }
 }

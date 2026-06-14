@@ -5,6 +5,8 @@ import {
   addSearchToHistory,
   recordRecommendationShown,
   recordRecommendationClick as recordPrefClick,
+  getActiveRecommendationTypes,
+  isRecommendationTypeEnabled,
 } from './userPreferences';
 
 /**
@@ -294,6 +296,72 @@ export function getRecommendationsForUser(
 }
 
 // Get trending/popular resources
+/**
+ * Filter recommendations based on user preferences
+ */
+export function filterRecommendationsByUserPreferences(
+  recommendations: Recommendation[],
+  type: 'user-behavior' | 'trending' | 'similar'
+): Recommendation[] {
+  const prefs = loadUserPreferences();
+  if (!isRecommendationTypeEnabled(prefs, type)) {
+    return [];
+  }
+  return recommendations;
+}
+
+/**
+ * Get all recommendations with filtering applied
+ */
+export function getAllRecommendations(
+  behavior: UserBehavior,
+  count: number = 3
+): Recommendation[] {
+  const prefs = loadUserPreferences();
+  const activeTypes = getActiveRecommendationTypes(prefs);
+
+  if (activeTypes.length === 0) {
+    return [];
+  }
+
+  const allRecs: Recommendation[] = [];
+
+  // Get user behavior recommendations
+  if (activeTypes.includes('user-behavior')) {
+    const userRecs = getRecommendationsForUser(behavior, Math.ceil(count / activeTypes.length));
+    userRecs.forEach((rec) => {
+      if (!allRecs.find((r) => r.resource.id === rec.resource.id)) {
+        allRecs.push(rec);
+      }
+    });
+  }
+
+  // Get trending recommendations
+  if (activeTypes.includes('trending')) {
+    const trendingRecs = getTrendingResources(Math.ceil(count / activeTypes.length));
+    trendingRecs.forEach((rec) => {
+      if (!allRecs.find((r) => r.resource.id === rec.resource.id)) {
+        allRecs.push(rec);
+      }
+    });
+  }
+
+  // Get similar recommendations (based on first viewed resource)
+  if (activeTypes.includes('similar') && behavior.viewedResourceIds.length > 0) {
+    const similarRecs = getRecommendationsForResource(
+      behavior.viewedResourceIds[0],
+      Math.ceil(count / activeTypes.length)
+    );
+    similarRecs.forEach((rec) => {
+      if (!allRecs.find((r) => r.resource.id === rec.resource.id)) {
+        allRecs.push(rec);
+      }
+    });
+  }
+
+  return allRecs.slice(0, count);
+}
+
 export function getTrendingResources(count: number = 3): Recommendation[] {
   return allResources
     .map((resource) => ({
