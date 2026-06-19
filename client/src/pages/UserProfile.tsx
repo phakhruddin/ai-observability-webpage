@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Trash2, Plus, TrendingUp, Clock, BarChart3, Settings, Filter } from 'lucide-react';
+import { ArrowLeft, Trash2, Plus, TrendingUp, Clock, BarChart3, Settings, Filter, BarChart2 } from 'lucide-react';
 import {
   loadUserPreferences,
   saveUserPreferences,
@@ -16,6 +16,9 @@ import {
   UserPreferences,
 } from '@/lib/userPreferences';
 import { allResources } from '@/lib/resourceMetadata';
+import { PerformanceDashboard } from '@/components/PerformanceDashboard';
+import { PerformanceCharts } from '@/components/PerformanceCharts';
+import { AnalyticsFilters } from '@/components/AnalyticsFilters';
 
 /**
  * User Profile & Personalization Dashboard
@@ -31,7 +34,7 @@ import { allResources } from '@/lib/resourceMetadata';
 export function UserProfile() {
   const [, setLocation] = useLocation();
   const [preferences, setPreferences] = useState<UserPreferences | null>(null);
-  const [activeTab, setActiveTab] = useState<'interests' | 'history' | 'stats' | 'settings' | 'filters'>('interests');
+  const [activeTab, setActiveTab] = useState<'interests' | 'history' | 'stats' | 'settings' | 'filters' | 'analytics'>('interests');
   const [stats, setStats] = useState(getRecommendationStats(null));
 
   useEffect(() => {
@@ -112,7 +115,7 @@ export function UserProfile() {
 
           {/* Tab Navigation */}
           <div className="flex gap-2 border-b border-accent/10">
-            {(['interests', 'history', 'stats', 'filters', 'settings'] as const).map((tab) => (
+            {(['interests', 'history', 'stats', 'filters', 'analytics', 'settings'] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -126,6 +129,7 @@ export function UserProfile() {
                 {tab === 'history' && 'Search History'}
                 {tab === 'stats' && 'Statistics'}
                 {tab === 'filters' && 'Filters'}
+                {tab === 'analytics' && 'Analytics'}
                 {tab === 'settings' && 'Settings'}
               </button>
             ))}
@@ -580,6 +584,29 @@ export function UserProfile() {
                   )}
               </div>
             </Card>
+          </div>
+        )}
+
+        {/* Analytics Tab */}
+        {activeTab === 'analytics' && (
+          <div className="space-y-6">
+            <div className="flex items-center gap-2 mb-6">
+              <BarChart2 className="w-5 h-5 text-accent" />
+              <h2 className="text-xl font-bold">Performance Analytics</h2>
+            </div>
+
+            <p className="text-muted-foreground mb-6">
+              Track how recommendations are performing and understand which types drive the most engagement.
+            </p>
+
+            {/* Filters */}
+            <AnalyticsFilters />
+
+            {/* Performance Dashboard */}
+            <PerformanceDashboard />
+
+            {/* Performance Charts */}
+            <PerformanceCharts />
           </div>
         )}
       </div>
