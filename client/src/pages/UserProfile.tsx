@@ -19,6 +19,7 @@ import { allResources } from '@/lib/resourceMetadata';
 import { PerformanceDashboard } from '@/components/PerformanceDashboard';
 import { PerformanceCharts } from '@/components/PerformanceCharts';
 import { AnalyticsFilters } from '@/components/AnalyticsFilters';
+import { RecommendationAlerts } from '@/components/RecommendationAlerts';
 
 /**
  * User Profile & Personalization Dashboard
@@ -598,6 +599,8 @@ export function UserProfile() {
             <p className="text-muted-foreground mb-6">
               Track how recommendations are performing and understand which types drive the most engagement.
             </p>
+
+            <RecommendationAlerts />
 
             {/* Filters */}
             <AnalyticsFilters />

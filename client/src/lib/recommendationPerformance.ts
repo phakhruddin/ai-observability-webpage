@@ -93,6 +93,7 @@ export function recordPerformanceEvent(
     // Keep only last 1000 events to avoid localStorage bloat
     const recentEvents = events.slice(-1000);
     localStorage.setItem(PERFORMANCE_STORAGE_KEY, JSON.stringify(recentEvents));
+    window.dispatchEvent(new CustomEvent('recommendation-performance-updated'));
   } catch (error) {
     console.error('Failed to record performance event:', error);
   }
